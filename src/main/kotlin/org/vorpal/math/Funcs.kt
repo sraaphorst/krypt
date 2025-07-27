@@ -127,8 +127,8 @@ internal fun <T> powMod(x: T, y: T, n: T, ops: EuclidOps<T>): T {
     tailrec fun aux(remaining: T = y,
                     curr: T = x,
                     total: T = ops.one()): T {
-        if (remaining == ops.zero()) return total
-        val newTotal = ops.rem((if (ops.rmb(remaining)) ops.mul(total, curr) else total), n)
+        if (ops.eq(remaining, ops.zero())) return total
+        val newTotal = if (ops.rmb(remaining)) ops.rem(ops.mul(total, curr), n) else total
         val newCurr = ops.mul(curr, curr)
         val newRemaining = ops.shr(remaining)
         return aux(newRemaining, newCurr, newTotal)
